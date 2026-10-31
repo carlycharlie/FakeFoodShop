@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+
+    <title>The Work From Home Cafe</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        /* Navigation */
+
+        nav {
+            background: white;
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 30px;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: black;
+        }
+
+        .restaurant-title {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2rem;
+            color: #050505;
+            margin-bottom: 5px;
+        }
+
+        .logo-title {
+            font-family: 'Great Vibes', cursive;
+            font-size: 4rem;
+            color: #050505;
+            text-shadow: 2px 2px 4px rgba(10, 10, 10, 0.2);
+        }
+
+        /* Hero Banner */
+
+        .hero {
+            height: 300px;
+            background-image: url("italianfoodherobanner.jpg");
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* Restaurant Card */
+
+        .shop-info {
+            background: white;
+            max-width: 1000px;
+            margin: -50px auto 30px auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 3px 10px rgba(0, 0, 0, .1);
+            text-align: center;
+        }
+
+        /* Main Layout */
+
+        .container {
+            display: flex;
+            max-width: 1200px;
+            margin: auto;
+            gap: 20px;
+        }
+
+        /* Categories */
+
+        .sidebar {
+            width: 250px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+
+            position: sticky;
+            top: 20px;
+            align-self: flex-start;
+
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar li {
+            padding: 15px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        /* Food Section */
+
+        .products {
+            flex: 1;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        button {
+            background: #ff3b30;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #e03022;
+        }
+
+        .basket {
+            background: white;
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .basket h2 {
+
+            font-size: 2rem;
+            color: #e03022;
+            margin-bottom: 20px;
+
+        }
+
+        .basket-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .basket-item button {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 8px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+
+        .basket-item button:hover {
+            background-color: #a71d2a;
+        }
+
+        .checkout-btn {
+
+            display: block;
+            margin: 20px auto;
+            width: 220px;
+            height: 50px;
+            background: #ff3b30;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+
+        }
+
+        .checkout-btn:hover {
+
+            background-color: #218838;
+
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #28a745;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease;
+
+            z-index: 1000;
+        }
+
+        .toast.show {
+            opacity: 1;
+            visibility: visible;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+
+        <h2 class="restaurant-title">🍕 Food for the soul </h2>
+
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Menu</a></li>
+            <li><a href="#">Orders</a></li>
+            <li id="basket-count"><a href="#">Basket 🛒</a></li>
+            <li><button onclick="clearBasket()">
+                    Clear Basket
+                </button></li>
+        </ul>
+
+    </nav>
+
+    <div class="hero"></div>
+
+    <div class="shop-info">
+        <h1 class="logo-title">The Home Workers Cafe</h1>
+        <p>JavaScript Street, Market Bosworth</p>
+        <p> 5 ⭐ Google Rating</p>
+    </div>
+
+    <div class="container">
+
+        <div class="sidebar">
+
+            <h3>Categories</h3>
+
+            <ul>
+                <li><a href="#recommended-section">Recommended For You</a></li>
+                <li><a href="#starters-section">Starters</a></li>
+                <li><a href="#aperitivo-section">Aperitivo Selection</a></li>
+                <li><a href="#signature-section">Signature Plates</a></li>
+                <li><a href="#pizza-section">Pizza / Mizza</a></li>
+                <li><a href="#burgers-section">Burgers</a></li>
+                <li><a href="#pasta-section">Pasta</a></li>
+                <li><a href="#panini-section">Panini / Facacce</a></li>
+                <li><a href="#salads-section">Salads</a></li>
+                <li><a href="#deserts-section">Desserts</a></li>
+            </ul>
+
+        </div>
+
+        <div class="products">
+
+            <h2 id="recommended-section">Recommended For You</h2>
+
+            <div class="product-grid" id="recommended">
+            </div>
+
+            <h2 id="starters-section">⭐ Starters</h2>
+
+            <div class="product-grid" id="starters-grid">
+            </div>
+
+            <h2 id="aperitivo-section">🍹 Aperitivo Selection</h2>
+
+            <div class="product-grid" id="aperitivo-grid">
+            </div>
+
+            <h2 id="pizza-section">🍕 Pizza / Mizza</h2>
+
+            <div class="product-grid" id="pizza-grid">
+            </div>
+
+            <div class="product-grid">
+
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+    </div>
+
+    <div class="basket">
+
+        <h2>🛒 Your Basket</h2>
+
+        <div id="basket-items">
+            Basket is empty.
+        </div>
+
+        <h3 id="basket-total">
+            Total: £0.00
+        </h3>
+
+        <button onclick="checkout()" class="checkout-btn">
+            💳 Checkout
+        </button>
+
+    </div>
+
+
+
+    <div id="checkout-result"></div>
+
+    <div id="toast" class="toast"></div>
+
+    <script>
+
+        let basket = []
+
+        const menuItems = [
+            {
+                name: "SQL Burger",
+                description: "A burger optimised for maximum performance.",
+                price: 8.99,
+                category: "recommended"
+            },
+            {
+                name: "Deadlock Wings",
+                description: "Spicy wings with extra heat.",
+                price: 6.99,
+                category: "recommended"
+            },
+            {
+                name: "Debugging Doughnut",
+                description: "Removes 99% of bugs.",
+                price: 3.99,
+                category: "recommended"
+            },
+            {
+                name: "Brushetta",
+                description: "Toasted bread with tomatoes.",
+                price: 8.99,
+                category: "starter"
+            },
+            {
+                name: "Aperol Spritz",
+                description: "The perfect aperitivo.",
+                price: 6.99,
+                category: "aperitivo"
+            },
+            {
+                name: "Margherita Pizza",
+                description: "Classic Italian pizza",
+                price: 3.99,
+                category: "pizza"
+            },
+            {
+                name: "Premium Italian Antipasti",
+                description: "Parma ham, buffalo mozzarella, tomatoes, grilled vegetables & olives. Served with fresh focaccia bread.Serves 2",
+                price: 25,
+                category: "aperitivo"
+            },
+            {
+                name: "Mini Italian Antipasti",
+                description: "Served with fresh  focaccia. Choose from one of the following; Italian cured meats; italian cheeses; Meat and Cheese; Chargrilled vegetables.",
+                price: 10,
+                category: "aperitivo"
+            },
+            {
+                name: "Suppli",
+                description: "Crispy deep filled rice balls.",
+                price: 6,
+                category: "starter"
+            },
+            {
+                name: "Warm focaccia bread",
+                description: "With extra virgin olive oil & balsamic vinegar dip.",
+                price: 6,
+                category: "starter"
+            },
+            {
+                name: "Cheesy garlic bread",
+                description: "Add n'duja & spicey honey dip for £2 (spicey).",
+                price: 6,
+                category: "starter"
+            },
+            {
+                name: "Halloumi fries",
+                description: "Suitable for vegetarians.",
+                price: 6,
+                category: "recommended"
+            },
+            {
+                name: "Fries",
+                description: "Delicious crispy potato greatness.",
+                price: 6,
+                category: "recommended"
+            },
+            {
+                name: "Calzone",
+                description: "Ham, cheese & tomato sauce.",
+                price: 12,
+                category: "pizza"
+            },
+            {
+                name: "Salame",
+                description: "Tomato sauce, mozzarella and salame.",
+                price: 12,
+                category: "pizza"
+            },
+            {
+                name: "Roma",
+                description: "Pecorino cheese, parma ham, buffalo mozzarella & spicey honey.",
+                price: 12,
+                category: "pizza"
+            },
+            {
+                name: "Autunno",
+                description: "Mozzarella, mushrooms, bacon, caramelised onion & truffle oil.",
+                price: 12,
+                category: "pizza"
+            }
+        ];
+
+        const starters =
+            menuItems.filter(item =>
+                item.category === "starter"
+            );
+
+        const aperitivos =
+            menuItems.filter(item =>
+                item.category === "aperitivo"
+            );
+
+        const pizzas =
+            menuItems.filter(item =>
+                item.category === "pizza"
+            );
+
+        const recommended =
+            menuItems.filter(item =>
+                item.category === "recommended"
+            );
+
+        const recommendedGrid =
+            document.getElementById("recommended");
+
+        const startersGrid =
+            document.getElementById("starters-grid");
+
+        const aperitivoGrid =
+            document.getElementById("aperitivo-grid");
+
+        const pizzaGrid =
+            document.getElementById("pizza-grid");
+
+        const productGrid = document.querySelector(".product-grid");
+
+        recommended.forEach((item, index) => {
+
+            const originalIndex = menuItems.indexOf(item);
+
+            recommendedGrid.innerHTML += `
+
+        <div class="card">
+
+            <h3>${item.name}</h3>
+
+            <p>${item.description}</p>
+
+            <p>£${item.price}</p>
+
+            <button onclick="addToBasket(${originalIndex})">
+                Add To Basket
+            </button>
+
+        </div>
+
+    `;
+
+        });
+
+        starters.forEach((item, index) => {
+
+            const originalIndex = menuItems.indexOf(item);
+
+            startersGrid.innerHTML += `
+
+        <div class="card">
+
+            <h3>${item.name}</h3>
+
+            <p>${item.description}</p>
+
+            <p>£${item.price}</p>
+
+            <button onclick="addToBasket(${originalIndex})">
+                Add To Basket
+            </button>
+
+        </div>
+
+    `;
+
+        });
+
+        aperitivos.forEach((item, index) => {
+
+            const originalIndex = menuItems.indexOf(item);
+
+            aperitivoGrid.innerHTML += `
+
+        <div class="card">
+
+            <h3>${item.name}</h3>
+
+            <p>${item.description}</p>
+
+            <p>£${item.price}</p>
+
+            <button onclick="addToBasket(${originalIndex})">
+                Add To Basket
+            </button>
+
+        </div>
+
+    `;
+
+        });
+
+        pizzas.forEach((item, index) => {
+
+            const originalIndex = menuItems.indexOf(item);
+
+            pizzaGrid.innerHTML += `
+
+        <div class="card">
+
+            <h3>${item.name}</h3>
+
+            <p>${item.description}</p>
+
+            <p>£${item.price}</p>
+
+            <button onclick="addToBasket(${originalIndex})">
+                Add To Basket
+            </button>
+
+        </div>
+
+    `;
+
+        });
+
+        function addToBasket(index) {
+
+            const selectedItem = menuItems[index];
+
+            const existingItem = basket.find(
+                item => item.name === selectedItem.name
+            );
+
+            if (existingItem) {
+
+                existingItem.quantity++;
+
+            } else {
+
+                basket.push({
+                    ...selectedItem,
+                    quantity: 1
+                });
+
+            }
+
+            updateBasketCount();
+
+            updateBasketDisplay();
+
+            saveBasket();
+            showToast("🛒 " + menuItems[index].name + " added to basket!");
+        }
+
+        function removeFromBasket(index) {
+
+            basket[index].quantity--;
+
+            if (basket[index].quantity === 0) {
+                basket.splice(index, 1);
+            }
+
+            updateBasketCount();
+
+            updateBasketDisplay();
+
+            saveBasket();
+
+        }
+
+        function updateBasketDisplay() {
+
+            const basketItems = document.getElementById("basket-items");
+
+            const basketTotal = document.getElementById("basket-total");
+
+            if (basket.length === 0) {
+
+                basketItems.innerHTML = "Basket is empty.";
+
+                basketTotal.textContent = "Total: £0.00";
+
+                return;
+            }
+
+            let html = "";
+
+            let total = 0;
+
+            basket.forEach((item, index) => {
+
+                html += `
+            <div class="basket-item">
+
+        <span>${item.name} x${item.quantity}</span>
+
+        <span>
+            £${(item.price * item.quantity).toFixed(2)}
+
+            <button onclick="duplicateItem(${index})">
+                ➕
+            </button>
+
+            <button onclick="removeFromBasket(${index})">
+                ❌
+            </button>
+        </span>
+
+    </div >
+            `;
+
+                total += item.price * item.quantity;
+
+            });
+
+            basketItems.innerHTML = html;
+
+            basketTotal.textContent =
+                `Total: £${total.toFixed(2)} `;
+
+
+        }
+
+        function duplicateItem(index) {
+
+            basket[index].quantity++;
+
+            updateBasketCount();
+
+            updateBasketDisplay();
+
+            saveBasket();
+
+        }
+
+        function updateBasketCount() {
+
+            let totalItems = 0;
+
+            basket.forEach(item => {
+                totalItems += item.quantity;
+            });
+
+            document.getElementById("basket-count").textContent =
+                `🛒 Basket(${totalItems})`;
+
+        }
+
+        function saveBasket() {
+            localStorage.setItem(
+                "basket",
+                JSON.stringify(basket)
+            );
+        }
+
+        function loadBasket() {
+
+            const savedBasket =
+                localStorage.getItem("basket");
+
+            if (savedBasket) {
+
+                basket = JSON.parse(savedBasket);
+
+                updateBasketCount();
+                updateBasketDisplay();
+            }
+
+        }
+
+        function clearBasket() {
+            basket = [];
+            localStorage.removeItem("basket");
+            updateBasketCount();
+            updateBasketDisplay();
+        }
+
+        function checkout() {
+
+            if (basket.length === 0) {
+
+                alert("Your basket is empty!");
+
+                return;
+            }
+
+            let orderText = "";
+
+            basket.forEach(item => {
+
+                orderText += `
+            < p >
+            ${item.name} x${item.quantity}
+            </p >
+            `;
+
+            });
+
+            document.getElementById("checkout-result").innerHTML = `
+
+            < div class="basket" >
+
+            <h2>🎉 Thank You For Your Order!</h2>
+
+            <p>
+                Order Number:
+                #${Math.floor(Math.random() * 9000) + 1000}
+            </p>
+
+            <h3>Items Ordered</h3>
+
+            ${orderText}
+
+        <p>
+            Your food will be delivered in approximately
+            20-30 minutes.
+        </p>
+
+        </div >
+
+
+    `;
+
+            basket = [];
+
+            localStorage.removeItem("basket");
+
+            updateBasketCount();
+            updateBasketDisplay();
+
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById("toast");
+
+            toast.textContent = message;
+            toast.classList.add("show");
+
+            setTimeout(() => {
+                toast.classList.remove("show");
+            }, 2000);
+        }
+
+        loadBasket();
+    </script>
+
+</body>
+
+</html>
